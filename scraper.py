@@ -37,7 +37,7 @@ def scrape(start, end):
         r = requests.get(data_page_url_formatted)
 
         # parse the XML file
-        soup = BeautifulSoup(r.text, "xml")
+        soup = BeautifulSoup(r.text, "xml", from_encoding="utf-8")
 
         # get the eqlist element
         eqlist = soup.find("eqlist")
@@ -81,4 +81,4 @@ def save(df, type="csv"):
         df.to_parquet("earthquakes.parquet")
     elif type == "feather":
         df.to_feather("earthquakes.feather")
-        
+

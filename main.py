@@ -70,7 +70,7 @@ if st.button("Verileri Çek"):
         # Close the Pandas Excel writer and output the Excel file.
         writer.save()
 
-        with open("earthquakes.xlsx", "rb") as f:
+        with open("earthquakes.xlsx", "rb", encoding="utf-8") as f:
             data = f.read()
 
         st.download_button(
@@ -84,7 +84,7 @@ if st.button("Verileri Çek"):
     elif output_type == "Pickle":
         save(df, "pickle")
 
-        with open("earthquakes.pkl", "rb") as f:
+        with open("earthquakes.pkl", "rb", encoding="utf-8") as f:
             data = f.read()
 
         st.download_button(
@@ -106,7 +106,7 @@ if st.button("Verileri Çek"):
     elif output_type == "Feather":
         save(df, "feather")
 
-        with open("earthquakes.feather", "rb") as f:
+        with open("earthquakes.feather", "rb", encoding="utf-8") as f:
             data = f.read()
 
         st.download_button(
