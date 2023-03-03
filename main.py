@@ -3,6 +3,7 @@ import streamlit as st
 import datetime
 import uuid
 import pandas as pd
+import time
 
 
 st.title("Kandilli Deprem Verileri")
@@ -31,6 +32,8 @@ output_type = st.selectbox("Dosya Formatı", ["CSV", "JSON", "Excel", "Pickle", 
 
 
 if st.button("Verileri Çek"):
+    start_time = time.time()
+
     start = f"{start_year}{start_month if start_month >= 10 else '0' + str(start_month)}"
     end = f"{end_year}{end_month if end_month >= 10 else '0' + str(end_month)}"
 
@@ -40,14 +43,16 @@ if st.button("Verileri Çek"):
     with st.spinner("Veriler çekiliyor..."):    
         df = scrape(start, end)
 
-    st.success("Veriler çekildi!")
+    end_time = time.time()
+    seconds = end_time - start_time
+    st.success("Veriler çekildi! ({:.2f} saniye)".format(seconds))
 
     unique_filename = str(uuid.uuid4())
 
     if output_type == "CSV":
         st.download_button(
             label="İndir",
-            data=df.to_csv().encode(),
+            data=df.to_csv(index=False).encode(),
             file_name="earthquakes.csv",
             mime="text/csv"
         )
@@ -116,4 +121,12 @@ if st.button("Verileri Çek"):
             mime="application/octet-stream"
         )
 
+    
+                  
+    
+# footer
+st.markdown("""---
+Bu web uygulaması [© Hüseyin Averbek](https://www.linkedin.com/in/huseyinaverbek) tarafından [Kandilli Rasathanesi ve Deprem Araştırma Enstitüsü](http://www.koeri.boun.edu.tr) verileri kullanılarak geliştirilmiştir.
 
+Kodlara [GitHub](https://github.com/hevirbek/depremscraper) üzerinden ulaşabilirsiniz.
+""")
